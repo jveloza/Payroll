@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import EmployeeService from "../services/EmployeeService";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export const ListEmployeeComponent = () => {
   const [employees, setEmployees] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     EmployeeService.getEmployees()
@@ -15,6 +17,11 @@ export const ListEmployeeComponent = () => {
       });
   });
 
+  const logout = () => {
+    localStorage.removeItem("login");
+    navigate("/");
+  };
+
   return (
     <div>
       <h2 className="text-center">Employees List</h2>
@@ -22,6 +29,9 @@ export const ListEmployeeComponent = () => {
         <Link to="/add-employee" className="btn btn-primary">
           Add Employee
         </Link>
+        <button className="btn btn-danger" onClick={logout}>
+          Logout
+        </button>
       </div>
       <div className="row">
         <table className="table table-striped table-bordered">
